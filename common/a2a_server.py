@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from starlette.routing import Mount
-from a2a.server.apps.jsonrpc.fastapi_app import A2AFastAPIApplication
 from a2a.server.agent_execution import AgentExecutor
 from a2a.server.request_handlers import DefaultRequestHandler
 from a2a.server.tasks import InMemoryTaskStore
