@@ -5,10 +5,8 @@ services:
       dockerfile: Dockerfile
     command: uvicorn agents.research_agent:app --host 0.0.0.0 --port 8001
     environment:
-      A2A_API_KEY: ${A2A_API_KEY:-change-me}
+      A2A_API_KEY: ${A2A_API_KEY:?A2A_API_KEY must be set}
       RESEARCH_AGENT_CARD_URL: http://research-agent:8001
-    ports:
-      - "8001:8001"
 
   writer-agent:
     build:
@@ -16,10 +14,8 @@ services:
       dockerfile: Dockerfile
     command: uvicorn agents.writer_agent:app --host 0.0.0.0 --port 8002
     environment:
-      A2A_API_KEY: ${A2A_API_KEY:-change-me}
+      A2A_API_KEY: ${A2A_API_KEY:?A2A_API_KEY must be set}
       WRITER_AGENT_CARD_URL: http://writer-agent:8002
-    ports:
-      - "8002:8002"
 
   supervisor:
     build:
@@ -27,7 +23,7 @@ services:
       dockerfile: Dockerfile
     command: uvicorn supervisor.app:app --host 0.0.0.0 --port 8000
     environment:
-      A2A_API_KEY: ${A2A_API_KEY:-change-me}
+      A2A_API_KEY: ${A2A_API_KEY:?A2A_API_KEY must be set}
       RESEARCH_URL: http://research-agent:8001
       WRITER_URL: http://writer-agent:8002
     depends_on:

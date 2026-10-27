@@ -1,6 +1,6 @@
 import uuid
 import httpx
-from a2a.client import A2ACardResolver, create_client
+from a2a.client import A2ACardResolver, ClientConfig, create_client
 from a2a.types import Message, Part, Role, SendMessageRequest
 
 async def call_agent(agent_url: str, text: str, api_key: str | None = None) -> str:
@@ -11,7 +11,10 @@ async def call_agent(agent_url: str, text: str, api_key: str | None = None) -> s
     async with httpx.AsyncClient(timeout=120, headers=headers) as http:
         resolver = A2ACardResolver(http, agent_url)
         card = await resolver.get_agent_card()
-        client = await create_client(card)
+        # Reuse the authenticated client for both card discovery and the
+        # JSON-RPC call. Passing headers only to A2ACardResolver leaves the
+        # actual A2A request unauthenticated.
+        client = await create_client(card, client_config=ClientConfig(httpx_client=http))
 
         message = Message(
             role=Role.ROLE_USER,

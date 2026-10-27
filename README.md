@@ -78,13 +78,16 @@ Open:
 
 ## Security
 
-Set:
+Set a long, randomly generated secret before starting the containers:
 
 ```bash
-export A2A_API_KEY="change-me"
+export A2A_API_KEY="$(openssl rand -hex 32)"
 ```
 
-The supervisor sends `Authorization: Bearer <key>` to specialist agents.
+The supervisor sends `Authorization: Bearer <key>` to specialist agents. `POST /run`,
+the specialist Agent Cards, and A2A JSON-RPC routes require that header; only `/health`
+is unauthenticated for platform probes. Docker Compose intentionally publishes only the
+supervisor port.
 
 For real production deployments also use TLS, an API gateway/service mesh, short-lived credentials, workload identity, rate limiting, audit logs, and signed/pinned Agent Cards.
 
