@@ -6,6 +6,7 @@ services:
     command: uvicorn agents.research_agent:app --host 0.0.0.0 --port 8001
     environment:
       A2A_API_KEY: ${A2A_API_KEY:-change-me}
+      RESEARCH_AGENT_CARD_URL: http://research-agent:8001
     ports:
       - "8001:8001"
 
@@ -16,6 +17,7 @@ services:
     command: uvicorn agents.writer_agent:app --host 0.0.0.0 --port 8002
     environment:
       A2A_API_KEY: ${A2A_API_KEY:-change-me}
+      WRITER_AGENT_CARD_URL: http://writer-agent:8002
     ports:
       - "8002:8002"
 

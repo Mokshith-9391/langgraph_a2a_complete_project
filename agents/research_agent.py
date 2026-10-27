@@ -1,3 +1,5 @@
+import os
+
 from a2a.server.agent_execution import AgentExecutor
 from a2a.server.events import EventQueue
 from a2a.server.agent_execution import RequestContext
@@ -30,10 +32,11 @@ class ResearchExecutor(AgentExecutor):
 card = build_card(
     "Research Agent",
     "Independent research specialist exposed over A2A.",
-    "http://127.0.0.1:8001",
+    os.getenv("RESEARCH_AGENT_CARD_URL", "http://127.0.0.1:8001"),
     "research",
     "Technical Research",
     ["Research LangGraph A2A security.", "Find architecture considerations."]
 )
 
 app = build_a2a_app(card, ResearchExecutor())
+

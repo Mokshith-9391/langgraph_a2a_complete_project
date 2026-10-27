@@ -1,3 +1,5 @@
+import os
+
 from a2a.server.agent_execution import AgentExecutor
 from a2a.server.events import EventQueue
 from a2a.server.agent_execution import RequestContext
@@ -36,10 +38,11 @@ class WriterExecutor(AgentExecutor):
 card = build_card(
     "Writer Agent",
     "Independent technical writing specialist exposed over A2A.",
-    "http://127.0.0.1:8002",
+    os.getenv("WRITER_AGENT_CARD_URL", "http://127.0.0.1:8002"),
     "writer",
     "Technical Writing",
     ["Write a technical article about A2A.", "Turn research into documentation."]
 )
 
 app = build_a2a_app(card, WriterExecutor())
+
